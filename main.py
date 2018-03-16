@@ -14,4 +14,8 @@ transform = new_matrix()
 # print_matrix( make_hermite() )
 # print
 
-parse_file( 'script', edges, transform, screen, color )
+add_box(5,5,10)
+save_extension(screen, 'boop.png')
+display(screen)
+
+#parse_file( 'script', edges, transform, screen, color )
