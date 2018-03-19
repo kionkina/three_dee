@@ -14,7 +14,21 @@ transform = new_matrix()
 # print_matrix( make_hermite() )
 # print
 
-add_box(5,5,10)
+add_box(transform, 200, 200, 0, 50,50,100)
+
+boop = make_rotZ(50)
+matrix_mult(boop, transform)
+boop = make_rotX(50)
+matrix_mult(boop, transform)
+draw_lines(transform, screen, color)
+print_matrix(transform)
+
+
+#add_sphere(transform, 100, 100, 0, 50, .001)
+#add_torus( points, cx, cy, cz, r0, r1, step )
+add_torus(transform, 100, 100, 0, 5, 10, .001)
+draw_lines(transform, screen, color)
+print_matrix(transform)
 save_extension(screen, 'boop.png')
 display(screen)
 
