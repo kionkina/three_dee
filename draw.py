@@ -22,30 +22,45 @@ def add_box( points, x, y, z, width, height, depth ):
     add_edge(points,x+w, y-h, z+d, x, y-h, z+d)
     add_edge(points,x, y-h, z+d, x,y,z+d)
 
-    
+
+
 def add_sphere( points, cx, cy, cz, r, step ):
+    sphere = generate_sphere(points, cx, cy, cz, r, step)
+    for i in range(len(sphere)):
+        add_edge(points, sphere[i][0], sphere[i][1], sphere[i][2], sphere[i][0], sphere[i][1], sphere[i][2]) 
+    
+
+def generate_sphere( points, cx, cy, cz, r, step ):
     # theta is the angle of circle creation 0 --> 2pi
     # phi is the angle of circle rotation 0 --> phi
+
+    points2 = []
     theta = 0
     phi = 0
     while (phi < 2*math.pi):
         while (theta < pi):
-            x = r*math.cos(theta*2*math.pi) + cx
-            y = r*math.sin(theta*2*math.pi)*cos(phi) + cy
-            z = r*math.sin(theta*2*math.pi)*sin(phi) + cz
+            x = r*math.cos(theta) + cx
+            y = r*math.sin(theta)*cos(phi) + cy
+            z = r*math.sin(theta)*sin(phi) + cz
+            add_point(points2, x, y, z)
             theta += step
-            add_point(points, x, y, z)
         phi += step
-    
+    return points2        
 
 
-
-def generate_sphere( points, cx, cy, cz, r, step ):
-    pass
     
 #r0 is inner circle radius
 #r1 is tube radius
 def add_torus( points, cx, cy, cz, r0, r1, step ):
+    torus = generate_torus(points, cx, cy, cz, r0, r1, step)
+    for i in range(len(torus)):
+        add_edge(points, torus[i][0], torus[i][1], torus[i][2],torus[i][0], torus[i][1], torus[i][2])
+    
+
+
+
+def generate_torus( points, cx, cy, cz, r0, r1, step ):
+    ret = []
     phi = 0
     theta = 0
     while (phi < 2*math.pi):
@@ -54,14 +69,10 @@ def add_torus( points, cx, cy, cz, r0, r1, step ):
             y = (r0 + r1*math.cos(theta))*math.sin(phi)
             z = r1*math.sin(theta)
             theta += step
-            add_point(points, x,y,z)
+            add_point(ret, x,y,z)
         phi += step
-        
+    return ret
 
-
-
-def generate_torus( points, cx, cy, cz, r0, r1, step ):
-    pass
 
 def add_circle( points, cx, cy, cz, r, step ):
     x0 = r + cx
