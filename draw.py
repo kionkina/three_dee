@@ -45,18 +45,16 @@ def generate_sphere( points, cx, cy, cz, r, step ):
             x = (r*math.cos(t)) + cx
             y = (r*math.sin(t)* math.cos(phi)) + cy
             z = (r*math.sin(t) * math.sin(phi)) + cz
-            print "adding point"
-            print x
-            print y
-            print z
-            print " . . . to ret"
+#            print "adding point"
+#            print x
+#            print y
+#            print z
+#            print " . . . to ret"
             add_point(ret, x, y, z)
-
             k += 1
-
         i += 1
-    print "RET"
-    print_matrix(ret)
+#    print "RET"
+#    print_matrix(ret)
     return ret 
 
 
