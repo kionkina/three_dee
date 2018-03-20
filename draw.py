@@ -2,6 +2,8 @@ from display import *
 from matrix import *
 from math import *
 
+pi = math.pi
+
 def add_box( points, x, y, z, width, height, depth ):
     h = height
     w = width
@@ -26,26 +28,36 @@ def add_box( points, x, y, z, width, height, depth ):
 
 def add_sphere( points, cx, cy, cz, r, step ):
     sphere = generate_sphere(points, cx, cy, cz, r, step)
-    for i in range(len(sphere)):
-        add_edge(points, sphere[i][0], sphere[i][1], sphere[i][2], sphere[i][0], sphere[i][1], sphere[i][2]) 
+    for i in sphere:
+        add_edge(points, i[0], i[1], i[2], i[0], i[1], i[2]) 
     
 
 def generate_sphere( points, cx, cy, cz, r, step ):
     # theta is the angle of circle creation 0 --> 2pi
     # phi is the angle of circle rotation 0 --> phi
+    ret = []
+    i = 1
+    while i <= step:
+        phi = float(i)/step * 2 * pi
+        k = 1
+        while (k <= step):
+            t = float(k)/step * pi
+            x = (r*math.cos(t)) + cx
+            y = (r*math.sin(t)* math.cos(phi)) + cy
+            z = (r*math.sin(t) * math.sin(phi)) + cz
+            print "adding point"
+            print x
+            print y
+            print z
+            print " . . . to ret"
+            add_point(ret, x, y, z)
 
-    points2 = []
-    theta = 0
-    phi = 0
-    while (phi < 2*math.pi):
-        while (theta < pi):
-            x = r*math.cos(theta) + cx
-            y = r*math.sin(theta)*cos(phi) + cy
-            z = r*math.sin(theta)*sin(phi) + cz
-            add_point(points2, x, y, z)
-            theta += step
-        phi += step
-    return points2        
+            k += 1
+
+        i += 1
+    print "RET"
+    print_matrix(ret)
+    return ret 
 
 
     
@@ -53,24 +65,27 @@ def generate_sphere( points, cx, cy, cz, r, step ):
 #r1 is tube radius
 def add_torus( points, cx, cy, cz, r0, r1, step ):
     torus = generate_torus(points, cx, cy, cz, r0, r1, step)
-    for i in range(len(torus)):
-        add_edge(points, torus[i][0], torus[i][1], torus[i][2],torus[i][0], torus[i][1], torus[i][2])
+    for i in torus:
+        add_edge(points, i[0], i[1], i[2], i[0], i[1], i[2])
     
 
 
 
 def generate_torus( points, cx, cy, cz, r0, r1, step ):
     ret = []
-    phi = 0
-    theta = 0
-    while (phi < 2*math.pi):
-        while (theta < 2*math.pi):
-            x = (r0 + r1*math.cos(theta))*math.cos(phi)
-            y = (r0 + r1*math.cos(theta))*math.sin(phi)
-            z = r1*math.sin(theta)
-            theta += step
+    i = 1
+    while i <= step:
+        phi = (float(i)/step) * 2 * pi
+        k = 1
+        while k <= step:
+            t = (float(k)/step) * 2 * pi
+            x = ((r0 * math.cos(t) + r1) * math.cos(phi)) + cx
+            y = (r0 * math.sin(t)) + cy
+            z = ((r0 * math.cos(t) + r1) * -1*math.sin(phi)) + cz
             add_point(ret, x,y,z)
-        phi += step
+
+            k += 1
+        i += 1
     return ret
 
 
